@@ -15,6 +15,5 @@ connectDB()
     })
 })
 .catch(function (err) {
-    console.log(process.env.MONGO_URI);
     console.log("Mongodb connection err:", err);
 })
