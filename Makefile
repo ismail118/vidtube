@@ -8,5 +8,7 @@ npm-mongodb:
 	npm install mongodb
 npm-cors:
 	npm install cors
+npm-joi:
+	npm i joi
 start-app:
 	npm run start
