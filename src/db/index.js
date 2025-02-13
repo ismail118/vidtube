@@ -17,8 +17,4 @@ const connectDB = async function connect() {
     }
 }
 
-async function main() {
-    await connectDB()
-}
-
-export { db }
+export { db, connectDB }
