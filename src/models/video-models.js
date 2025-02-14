@@ -13,7 +13,7 @@ const videoSchema = Joi.object({
     isPublished: Joi.boolean().default(true),
     owner: JoiObjectId.objectId().required(),
     createdAt: Joi.date().timestamp(),
-    updatedAt: Joi.string().timestamp(),
+    updatedAt: Joi.date().timestamp(),
 })
 
 export { videoColletionName }

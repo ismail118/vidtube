@@ -1,15 +1,16 @@
 import { MongoClient } from "mongodb";
 import { DB_NAME } from "../consts.js";
 
-let db
+let DB
+let Client
 
-const connectDB = async function connect() {
+async function connect() {
     try {
         const client = new MongoClient(process.env.MONGO_URI)
         await client.connect()
         await client.db(DB_NAME).command({ ping: 1})
-
-        db = client.db(DB_NAME)
+        DB = client.db(DB_NAME)
+        Client = client
         console.log("Success connect to mongodb");
     } catch (err) {
         console.log("Error connect to db:", err);
@@ -17,4 +18,7 @@ const connectDB = async function connect() {
     }
 }
 
-export { db, connectDB }
+async function connectDB() {
+    await connect()
+}
+export {DB, Client, connectDB}

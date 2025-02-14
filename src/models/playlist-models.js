@@ -9,7 +9,7 @@ const playlistSchema = Joi.object({
     videos: Joi.array().items(JoiObjectId.objectId()).sparse(),
     owner: JoiObjectId.objectId().required(),
     createdAt: Joi.date().timestamp(),
-    updatedAt: Joi.string().timestamp(),
+    updatedAt: Joi.date().timestamp(),
 })
 
 export {playlistCollectionName}

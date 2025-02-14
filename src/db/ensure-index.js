@@ -1,9 +1,9 @@
 import { userCollectionName, userIndexSpecs } from '../models/user-models.js'
-import db from './index.js'
+import {DB} from './index.js'
 
 async function ensureIndexs(collectionName, indexSpecs) {
     try {
-        const collection = db.collection(collectionName)
+        const collection = DB.collection(collectionName)
         const existingIndexs = await collection.indexes()
         const existingIndexNames = existingIndexs.map(index => index.name)
 
@@ -38,3 +38,5 @@ async function runEnsureIndexs() {
         ensureIndexs(index.collectionName, index.indexSpecs)
     }
 }
+
+export {runEnsureIndexs}
