@@ -4,7 +4,7 @@ import { DB_NAME } from "../consts.js";
 let DB
 let Client
 
-async function connect() {
+async function connectDB() {
     try {
         const client = new MongoClient(process.env.MONGO_URI)
         await client.connect()
@@ -18,7 +18,4 @@ async function connect() {
     }
 }
 
-async function connectDB() {
-    await connect()
-}
 export {DB, Client, connectDB}

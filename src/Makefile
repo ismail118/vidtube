@@ -14,9 +14,15 @@ npm-bcrypt:
 	npm i bcrypt
 npm-umzug:
 	npm install umzug
+npm-jsonwebtoken:
+	npm install jsonwebtoken
+npm-cookie-parser:
+	npm i cookie-parser
+npm-multer:
+	npm i multer
+npm-cloudinary:
+	npm i cloudinary
 start-app:
 	npm run start
-
-# for migration mongodb
 migrate-up:
 	node migrate.js
