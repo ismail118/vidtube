@@ -40,6 +40,28 @@ class UserModel {
             throw err
         }
     }
+
+    updateUser(user) {
+        try {
+            DB.collection(userCollectionName).updateOne({ _id: user._id}, {
+                $set: {
+                    username: user.username,
+                    email: user.email,
+                    fullName: user.fullName,
+                    avatar: user.avatar,
+                    coverImage: user.coverImage,
+                    watchHistory: user.watchHistory,
+                    password: user.password,
+                    refreshToken: user.refreshToken,
+                    createdAt: user.createdAt,
+                    updatedAt: Date.now()
+                }
+            })
+        } catch (err) {
+            throw err
+        }
+    }
+
     findUser(username, email) {
         try {
             const user = DB.collection(userCollectionName).findOne({
@@ -60,6 +82,71 @@ class UserModel {
         }
     }
 
+    deleteRefreshToken(id) {
+        try {
+            DB.collection(userCollectionName).updateOne({_id: id}, {
+                $set: {
+                    refreshToken: "",
+                    updatedAt: Date.now()
+                }
+            })            
+        } catch (err) {
+            throw err
+        }
+    }
+
+    getUserProfile(username) {
+        try {
+            const pipeline = [
+                {
+                    $match: {username: username}
+                },
+                {
+                    $lookup: {
+                        from: "subscription",
+                        let: {userId: "$_id"},
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: {
+                                        $eq: [ "$channel", { $toString: "$$userId" } ]
+                                    }
+                                }
+                            }
+                        ],
+                        as: "follower"
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "subscription",
+                        let: {userId: "$_id"},
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: {
+                                        $eq: [ "$subscriber", { $toString: "$$userId" } ]
+                                    }
+                                }
+                            }
+                        ],
+                        as: "following"
+                    }
+                },
+                {
+                    $addFields: {
+                        followerCount: { $size: "$follower"},
+                        followingCount: { $size: "$following"}
+                    }
+                }
+            ]
+
+            const profile = DB.collection(userCollectionName).aggregate(pipeline)
+            return profile
+        } catch (err) {
+            throw err
+        }
+    }
 
 }
 
